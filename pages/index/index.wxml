@@ -3,3 +3,17 @@
   <view class="weather">{{ weather }}</view>
   <image class="weather-bg" src="{{weatherBackGround}}" mode="scaleToFill"></image>
 </view>
+<view class="title-24">
+  <image class="image-24" src="/images/time-icon.png"></image>
+  <text class="text-24">未来24小时天气预报</text>
+</view>
+
+<scroll-view scroll-x>
+  <view class="forecast">
+    <view class="forecast-item" wx:for="{{forecastDatas}}" wx:key="forecast">
+      <view class="forecast-time">{{item.time}} </view>
+      <image class="forecast-image" src="{{item.image}}"></image>
+      <view class="forecast-temp">{{item.temp}}</view>
+    </view>
+  </view>
+</scroll-view>

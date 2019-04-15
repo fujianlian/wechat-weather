@@ -25,48 +25,49 @@ Page({
     temp: '',
     weather: '',
     weatherBackGround: '',
+    forecastDatas: [],
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: function(options) {
     this.requestWeather()
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
-    
+  onReady: function() {
+
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
-    
+  onShow: function() {
+
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function () {
-    
+  onHide: function() {
+
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
-    
+  onUnload: function() {
+
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
-    this.requestWeather(()=>{
+  onPullDownRefresh: function() {
+    this.requestWeather(() => {
       wx.stopPullDownRefresh()
     })
   },
@@ -74,18 +75,18 @@ Page({
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () {
-    
+  onReachBottom: function() {
+
   },
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
-    
+  onShareAppMessage: function() {
+
   },
 
-  requestWeather: function(callback){
+  requestWeather(callback) {
     let that = this;
     wx.request({
       url: 'https://test-miniprogram.com/api/weather/now',
@@ -93,20 +94,55 @@ Page({
         city: '上海市'
       },
       success(res) {
-        let now = res.data.result.now;
-        wx.setNavigationBarColor({
-          frontColor: '#000000',
-          backgroundColor: weatherColorMap[now.weather],
-        })
-        that.setData({
-          temp: now.temp + "°",
-          weather: weatherMap[now.weather],
-          weatherBackGround: "/images/" + now.weather + "-bg.png"
-        })
+        let result = res.data.result
+        that.setNow(result.now)
+        that.setForeCastList(result.forecast)
       },
       complete: () => {
         callback && callback()
       }
+    })
+  },
+
+  /**
+   * 设置当前天气
+   */
+  setNow(now) {
+    wx.setNavigationBarColor({
+      frontColor: '#000000',
+      backgroundColor: weatherColorMap[now.weather],
+    })
+    this.setData({
+      temp: now.temp + "°",
+      weather: weatherMap[now.weather],
+      weatherBackGround: "/images/" + now.weather + "-bg.png",
+    })
+  },
+
+  /**
+   * 设置未来24小时天气
+   */
+  setForeCastList(forecast) {
+    let forecastDatas = [];
+    let nowHour = new Date().getHours()
+    for (let i = 0; i < 8; i += 1) {
+      if (i < forecast.length) {
+        forecastDatas.push({
+          time: (nowHour + i * 3) % 24 + "时",
+          image: "/images/" + forecast[i].weather + "-icon.png",
+          temp: forecast[i].temp + "°",
+        })
+      } else {
+        forecastDatas.push({
+          time: (nowHour + i * 3) % 24 + "时",
+          image: "/images/sunny-icon.png",
+          temp: "0°",
+        })
+      }
+    }
+    forecastDatas[0].time = "现在"
+    this.setData({
+      forecastDatas: forecastDatas
     })
   }
 })
