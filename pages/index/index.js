@@ -58,67 +58,12 @@ Page({
   },
 
   /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function() {
-    console.log('onReady')
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function() {
-    console.log('onShow')
-    var that = this
-    wx.getSetting({
-      success: res => {
-        let auth = res.authSetting["scope.userLocation"]
-        if (auth && this.locationAuthType !== AUTHORIZED) {
-          this.setData({
-            locationAuthType: AUTHORIZED,
-            locationTipsText: AUTHORIZED_TIPS
-          })
-          this.getLocation()
-        }
-      }
-    })
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function() {
-    console.log('onHide')
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function() {
-    console.log('onUnload')
-  },
-
-  /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function() {
     this.requestWeather(() => {
       wx.stopPullDownRefresh()
     })
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function() {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function() {
-
   },
 
   requestWeather(callback) {
@@ -200,14 +145,21 @@ Page({
 
   positionTap() {
     if (this.data.locationAuthType === UNAUTHORIZED) {
-      wx.openSetting()
+      wx.openSetting({
+        success: res => {
+          let auth = res.authSetting["scope.userLocation"]
+          if (auth) {
+            this.getLocation()
+          }
+        }
+      })
     } else {
       this.getLocation()
     }
   },
 
   getLocation() {
-    var that = this
+    let that = this
     wx.getLocation({
       success: function(res) {
         that.setData({
