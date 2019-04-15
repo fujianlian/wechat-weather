@@ -17,14 +17,14 @@
   line-height: 56rpx;
 }
 
-.date{
+.date {
   opacity: 0.5;
   margin-top: 5rpx;
   font-size: 25rpx;
   line-height: 35rpx;
 }
 
-.temp{
+.temp {
   flex-grow: 1;
   padding-right: 60rpx;
   text-align: center;

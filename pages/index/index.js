@@ -18,12 +18,16 @@ const weatherColorMap = {
 
 var util = require('../utils/timeutil.js');
 
+var QQMapWX = require('../../libs/qqmap-wx-jssdk.js');
+var qqmapsdk;
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    city: '福州市',
     temp: '',
     weather: '',
     weatherBackGround: '',
@@ -36,6 +40,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
+    qqmapsdk = new QQMapWX({
+      key: 'PTTBZ-GCMCQ-MBC5E-G5R2U-AU227-Y4BVM'
+    });
     this.requestWeather()
   },
 
@@ -95,7 +102,7 @@ Page({
     wx.request({
       url: 'https://test-miniprogram.com/api/weather/now',
       data: {
-        city: '上海市'
+        city: this.city
       },
       success(res) {
         let result = res.data.result
@@ -156,7 +163,7 @@ Page({
    */
   setToday(today) {
     this.setData({
-      todayDate: util.formatTime(new Date())+" 今天",
+      todayDate: util.formatTime(new Date()) + " 今天",
       dayTemp: today.minTemp + "° - " + today.maxTemp + "°",
     })
   },
@@ -165,5 +172,35 @@ Page({
     wx.navigateTo({
       url: '/pages/list/list'
     })
+  },
+
+  positionTap() {
+    var that = this
+    wx.getLocation({
+      success: function(res) {
+        var location = res.latitude + "," + res.longitude
+        qqmapsdk.reverseGeocoder({
+          location: location, //获取表单传入的位置坐标,不填默认当前位置,示例为string格式
+          success: function(res) { //成功后的回调
+            console.log(res);
+            var res = res.result;
+            that.changeCity(res.address_component.city)
+          },
+          fail: function(error) {
+            console.error(error);
+          },
+          complete: function(res) {
+            console.log(res);
+          }
+        })
+      }
+    })
+  },
+
+  changeCity(city) {
+    this.setData({
+      city: city
+    })
+    this.requestWeather()
   }
 })

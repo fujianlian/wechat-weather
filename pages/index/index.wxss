@@ -14,7 +14,7 @@
 
 .weather-wrapper {
   position: relative;
-  padding-top: 174rpx;
+  padding-top: 54rpx;
   padding-bottom: 250rpx;
 }
 
@@ -77,17 +77,17 @@
 }
 
 .weather-today {
-   display: flex;
-   opacity: 0.5;
-   left: 20rpx;
-   bottom: 0rpx;
-   right: 20rpx;
-   position: absolute;
-   height: 86rpx;
-   border-top: 1px solid rgba(0,0,0,0.3);
-   align-items: center;
-   font-size: 30rpx;
-   line-height: 42rpx;
+  display: flex;
+  opacity: 0.5;
+  left: 20rpx;
+  bottom: 0rpx;
+  right: 20rpx;
+  position: absolute;
+  height: 86rpx;
+  border-top: 1px solid rgba(0, 0, 0, 0.3);
+  align-items: center;
+  font-size: 30rpx;
+  line-height: 42rpx;
 }
 
 .today-arrow {
@@ -97,5 +97,35 @@
 }
 
 .today-text {
-   flex: 1;
+  flex: 1;
+}
+
+.location-wrapper {
+  margin-bottom: 50rpx;
+}
+
+.location {
+  display: flex;
+  justify-content: center;
+}
+
+.location-city {
+  font-size: 26rpx;
+  line-height: 33rpx;
+  opacity: 0.6;
+}
+
+.location-text {
+  margin-top: 12rpx;
+  font-size: 30rpx;
+  line-height: 45rpx;
+  opacity: 0.6;
+  display: flex;
+  justify-content: center;
+}
+
+.location-icon {
+  width: 21rpx;
+  height: 30rpx;
+  margin-right: 10rpx;
 }

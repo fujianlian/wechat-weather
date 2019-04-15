@@ -3,6 +3,11 @@
     "pages/index/index",
     "pages/list/list"
   ],
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于小程序位置定位的效果展示"
+    }
+  },
   "window":{
     "backgroundTextStyle":"dark",
     "navigationBarBackgroundColor": "#fff",

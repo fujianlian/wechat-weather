@@ -1,12 +1,19 @@
 <view class="weather-wrapper">
+  <view class="location-wrapper">
+    <view class="location">
+      <image class="location-icon" src="/images/location-icon.png"></image>
+      <view class='location-city'>{{ city }}</view>
+    </view>
+    <view class="location-text" bindtap='positionTap'>点击获取当前位置</view>
+  </view>
   <view class="temp">{{ temp }}</view>
   <view class="weather">{{ weather }}</view>
   <image class="weather-bg" src="{{weatherBackGround}}" mode="scaleToFill"></image>
-   <view class="weather-today" bindtap = "clickTap">
-      <view class="today-text">{{ todayDate }}</view>
-      <view>{{ dayTemp }}</view>
-      <image class="today-arrow" src="/images/arrow.png"></image>
-   </view>
+  <view class="weather-today" bindtap="clickTap">
+    <view class="today-text">{{ todayDate }}</view>
+    <view>{{ dayTemp }}</view>
+    <image class="today-arrow" src="/images/arrow.png"></image>
+  </view>
 </view>
 <view class="title-24">
   <image class="image-24" src="/images/time-icon.png"></image>
