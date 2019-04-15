@@ -2,7 +2,7 @@
   <view class="temp">{{ temp }}</view>
   <view class="weather">{{ weather }}</view>
   <image class="weather-bg" src="{{weatherBackGround}}" mode="scaleToFill"></image>
-   <view class="weather-today">
+   <view class="weather-today" bindtap = "clickTap">
       <view class="today-text">{{ todayDate }}</view>
       <view>{{ dayTemp }}</view>
       <image class="today-arrow" src="/images/arrow.png"></image>

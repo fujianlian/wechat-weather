@@ -159,5 +159,11 @@ Page({
       todayDate: util.formatTime(new Date())+" 今天",
       dayTemp: today.minTemp + "° - " + today.maxTemp + "°",
     })
+  },
+
+  clickTap() {
+    wx.navigateTo({
+      url: '/pages/list/list'
+    })
   }
 })

@@ -1,0 +1,10 @@
+<scroll-view>
+  <view class="weather-item" wx:for="{{futureList}}" wx:key="futureList">
+    <view>
+      <view class="day">{{ item.weekday }}</view>
+      <view class="date">{{ item.date }}</view>
+    </view>
+    <view class="temp">{{ item.temp }}</view>
+    <image class="weather-image" src="{{item.image}}"></image>
+  </view>
+</scroll-view>
