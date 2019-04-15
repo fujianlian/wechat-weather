@@ -75,3 +75,27 @@
   font-size: 40rpx;
   line-height: 56rpx;
 }
+
+.weather-today {
+   display: flex;
+   opacity: 0.5;
+   left: 20rpx;
+   bottom: 0rpx;
+   right: 20rpx;
+   position: absolute;
+   height: 86rpx;
+   border-top: 1px solid rgba(0,0,0,0.3);
+   align-items: center;
+   font-size: 30rpx;
+   line-height: 42rpx;
+}
+
+.today-arrow {
+  margin-left: 15rpx;
+  width: 13rpx;
+  height: 24rpx;
+}
+
+.today-text {
+   flex: 1;
+}

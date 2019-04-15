@@ -16,6 +16,8 @@ const weatherColorMap = {
   'snow': '#aae1fc'
 }
 
+var util = require('../utils/timeutil.js');
+
 Page({
 
   /**
@@ -26,6 +28,8 @@ Page({
     weather: '',
     weatherBackGround: '',
     forecastDatas: [],
+    todayDate: "",
+    dayTemp: "",
   },
 
   /**
@@ -96,6 +100,7 @@ Page({
       success(res) {
         let result = res.data.result
         that.setNow(result.now)
+        that.setToday(result.today)
         that.setForeCastList(result.forecast)
       },
       complete: () => {
@@ -143,6 +148,16 @@ Page({
     forecastDatas[0].time = "现在"
     this.setData({
       forecastDatas: forecastDatas
+    })
+  },
+
+  /**
+   * 设置当天最高/最低气温
+   */
+  setToday(today) {
+    this.setData({
+      todayDate: util.formatTime(new Date())+" 今天",
+      dayTemp: today.minTemp + "° - " + today.maxTemp + "°",
     })
   }
 })
