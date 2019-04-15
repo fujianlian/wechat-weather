@@ -4,7 +4,7 @@
       <image class="location-icon" src="/images/location-icon.png"></image>
       <view class='location-city'>{{ city }}</view>
     </view>
-    <view class="location-text" bindtap='positionTap'>点击获取当前位置</view>
+    <view class="location-text" bindtap='positionTap'>{{locationTipsText}}</view>
   </view>
   <view class="temp">{{ temp }}</view>
   <view class="weather">{{ weather }}</view>

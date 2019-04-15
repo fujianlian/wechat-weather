@@ -21,6 +21,14 @@ var util = require('../utils/timeutil.js');
 var QQMapWX = require('../../libs/qqmap-wx-jssdk.js');
 var qqmapsdk;
 
+const UNPROMPTED = 0
+const UNAUTHORIZED = 1
+const AUTHORIZED = 2
+
+const UNPROMPTED_TIPS = "点击获取当前位置"
+const UNAUTHORIZED_TIPS = "点击开启位置权限"
+const AUTHORIZED_TIPS = ""
+
 Page({
 
   /**
@@ -28,6 +36,8 @@ Page({
    */
   data: {
     city: '福州市',
+    locationTipsText: UNPROMPTED_TIPS,
+    locationAuthType: UNPROMPTED,
     temp: '',
     weather: '',
     weatherBackGround: '',
@@ -40,6 +50,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
+    console.log('onLoad')
     qqmapsdk = new QQMapWX({
       key: 'PTTBZ-GCMCQ-MBC5E-G5R2U-AU227-Y4BVM'
     });
@@ -50,28 +61,41 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function() {
-
+    console.log('onReady')
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-
+    console.log('onShow')
+    var that = this
+    wx.getSetting({
+      success: res => {
+        let auth = res.authSetting["scope.userLocation"]
+        if (auth && this.locationAuthType !== AUTHORIZED) {
+          this.setData({
+            locationAuthType: AUTHORIZED,
+            locationTipsText: AUTHORIZED_TIPS
+          })
+          this.getLocation()
+        }
+      }
+    })
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
   onHide: function() {
-
+    console.log('onHide')
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload: function() {
-
+    console.log('onUnload')
   },
 
   /**
@@ -102,7 +126,7 @@ Page({
     wx.request({
       url: 'https://test-miniprogram.com/api/weather/now',
       data: {
-        city: this.city
+        city: this.data.city
       },
       success(res) {
         let result = res.data.result
@@ -170,28 +194,42 @@ Page({
 
   clickTap() {
     wx.navigateTo({
-      url: '/pages/list/list'
+      url: '/pages/list/list?city=' + this.data.city
     })
   },
 
   positionTap() {
+    if (this.data.locationAuthType === UNAUTHORIZED) {
+      wx.openSetting()
+    } else {
+      this.getLocation()
+    }
+  },
+
+  getLocation() {
     var that = this
     wx.getLocation({
       success: function(res) {
+        that.setData({
+          locationAuthType: AUTHORIZED,
+          locationTipsText: AUTHORIZED_TIPS
+        })
         var location = res.latitude + "," + res.longitude
         qqmapsdk.reverseGeocoder({
           location: location, //获取表单传入的位置坐标,不填默认当前位置,示例为string格式
           success: function(res) { //成功后的回调
-            console.log(res);
             var res = res.result;
             that.changeCity(res.address_component.city)
           },
           fail: function(error) {
             console.error(error);
           },
-          complete: function(res) {
-            console.log(res);
-          }
+        })
+      },
+      fail: () => {
+        that.setData({
+          locationAuthType: UNAUTHORIZED,
+          locationTipsText: UNAUTHORIZED_TIPS
         })
       }
     })
@@ -199,7 +237,8 @@ Page({
 
   changeCity(city) {
     this.setData({
-      city: city
+      city: city,
+      locationTip: ""
     })
     this.requestWeather()
   }
