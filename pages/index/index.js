@@ -25,10 +25,6 @@ const UNPROMPTED = 0
 const UNAUTHORIZED = 1
 const AUTHORIZED = 2
 
-const UNPROMPTED_TIPS = "点击获取当前位置"
-const UNAUTHORIZED_TIPS = "点击开启位置权限"
-const AUTHORIZED_TIPS = ""
-
 Page({
 
   /**
@@ -36,7 +32,6 @@ Page({
    */
   data: {
     city: '福州市',
-    locationTipsText: UNPROMPTED_TIPS,
     locationAuthType: UNPROMPTED,
     temp: '',
     weather: '',
@@ -58,7 +53,6 @@ Page({
         let auth = res.authSetting["scope.userLocation"]
         this.setData({
           locationAuthType: auth ? AUTHORIZED : (auth === false) ? UNAUTHORIZED : UNPROMPTED,
-          locationTipsText: auth ? AUTHORIZED_TIPS : (auth === false) ? UNAUTHORIZED_TIPS : UNPROMPTED_TIPS,
         })
         if (auth) {
           this.getCityAndWeather()
@@ -176,7 +170,6 @@ Page({
       success: function(res) {
         that.setData({
           locationAuthType: AUTHORIZED,
-          locationTipsText: AUTHORIZED_TIPS
         })
         var location = res.latitude + "," + res.longitude
         qqmapsdk.reverseGeocoder({
@@ -193,7 +186,6 @@ Page({
       fail: () => {
         that.setData({
           locationAuthType: UNAUTHORIZED,
-          locationTipsText: UNAUTHORIZED_TIPS
         })
       }
     })

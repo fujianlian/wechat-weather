@@ -4,7 +4,9 @@
       <image class="location-icon" src="/images/location-icon.png"></image>
       <view class='location-city'>{{ city }}</view>
     </view>
-    <view class="location-text" bindtap='positionTap'>{{locationTipsText}}</view>
+    <view wx:if="{{locationAuthType===0}}" class="location-text" bindtap='positionTap'>点击获取当前位置</view>
+    <view wx:elif="{{locationAuthType===1}}" class="location-text" bindtap='positionTap'>点击开启位置权限</view>
+    <view wx:else class="location-text"></view>
   </view>
   <view class="temp">{{ temp }}</view>
   <view class="weather">{{ weather }}</view>
