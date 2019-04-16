@@ -50,11 +50,23 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    console.log('onLoad')
     qqmapsdk = new QQMapWX({
       key: 'PTTBZ-GCMCQ-MBC5E-G5R2U-AU227-Y4BVM'
     });
-    this.requestWeather()
+    wx.getSetting({
+      success: res => {
+        let auth = res.authSetting["scope.userLocation"]
+        this.setData({
+          locationAuthType: auth ? AUTHORIZED : (auth === false) ? UNAUTHORIZED : UNPROMPTED,
+          locationTipsText: auth ? AUTHORIZED_TIPS : (auth === false) ? UNAUTHORIZED_TIPS : UNPROMPTED_TIPS,
+        })
+        if (auth) {
+          this.getCityAndWeather()
+        } else {
+          this.requestWeather()
+        }
+      }
+    })
   },
 
   /**
@@ -149,16 +161,16 @@ Page({
         success: res => {
           let auth = res.authSetting["scope.userLocation"]
           if (auth) {
-            this.getLocation()
+            this.getCityAndWeather()
           }
         }
       })
     } else {
-      this.getLocation()
+      this.getCityAndWeather()
     }
   },
 
-  getLocation() {
+  getCityAndWeather() {
     let that = this
     wx.getLocation({
       success: function(res) {
