@@ -1,5 +1,5 @@
 ## 页面展示
 
-[1](./images/1.png) | [2](./images/1.png) | [3](./images/1.png) |
+![1](./images/1.png) | ![2](./images/2.png) | ![3](./images/3.png) |
 | :--: | :--: | :--: |
 | 1 | 2 | 3 |
