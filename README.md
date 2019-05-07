@@ -14,7 +14,9 @@
 
 2. 下载源码，打开微信开发者，选择小程序导入源码，**AppID改为自己申请的**，或者手动在**project.config.json**文件中修改**appid**的值
 
-3. 项目中使用到腾讯位置服务获取城市名，相关知识可以[参考](https://lbs.qq.com/qqmap_wx_jssdk/method-reverseGeocoder.html)这篇文章
+3. 运行项目，如果遇到数据请求失败，点击右上角 **详情** ——> **项目设置**，将最底下 **不校验合法域名、web-view（业务域名）、TLS 版本以及 HTTPS 证书** 勾选上，自己注册的AppID可以在[微信公众平台](https://mp.weixin.qq.com/)添加合法域名，就无需勾选
+
+4. 项目中使用到腾讯位置服务获取城市名，相关知识可以[参考](https://lbs.qq.com/qqmap_wx_jssdk/method-reverseGeocoder.html)这篇文章
 
 ## 进阶学习项目
 
